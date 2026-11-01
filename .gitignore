@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.npm-cache/
+.firebase/
+firebase-debug.log
+ui-debug.log
+database-debug.log
+auth-debug.log
+*.log
+.env
+.env.*
+!.env.production.example
+.emulator-data/
+# Private emulator backup and source archives
+.emulator-data.zip
+*.zip
+
+# Firebase database rules - review before publishing
+database.rules*.json

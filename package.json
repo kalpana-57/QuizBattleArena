@@ -1,0 +1,24 @@
+{
+  "name": "quiz-battle-arena",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "emulators": "firebase emulators:start --only auth,database --project demo-quiz-battle-arena",
+    "seed:emulator": "node scripts/seed-emulator.mjs",
+    "test:rules": "firebase emulators:exec --only auth,database --project demo-quiz-battle-arena \"node --test tests/rules.test.mjs\"",
+    "test:e2e": "node tests/e2e.mjs"
+  },
+  "dependencies": {
+    "firebase": "^11.10.0"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^4.0.1",
+    "firebase-admin": "^13.4.0",
+    "playwright": "^1.54.2",
+    "rollup": "npm:@rollup/wasm-node@^4.67.2",
+    "vite": "^6.3.5"
+  }
+}

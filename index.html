@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#080b12" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="description" content="A fast, friendly two-player quiz battle. Create a room, invite a friend, and see who tops the arena." />
+    <title>Quiz Battle Arena</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Quiz Battle Arena home"><span class="brand-mark">Q</span><span>QUIZ BATTLE <b>ARENA</b></span></a>
+      <div class="top-status"><i></i><span id="connectionLabel">Connecting to arena</span></div>
+    </header>
+    <main class="shell">
+      <section id="homeScreen" class="screen home-layout">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> THE FRIENDLY FACE-OFF <span class="eyebrow-line"></span></div>
+          <h1>Think fast.<br /><span>Play smart.</span></h1>
+          <p class="hero-desc">A head-to-head quiz duel for you and a friend. No accounts. No downloads. Just bragging rights.</p>
+          <div class="hero-pills"><span>✦ 10 questions</span><span>◷ 15 seconds each</span><span>⚡ First to the facts</span></div>
+        </div>
+        <div class="panel join-panel">
+          <div class="panel-kicker">STEP INTO THE ARENA</div>
+          <h2>Ready, challenger?</h2>
+          <label for="playerName">Your display name</label>
+          <input id="playerName" maxlength="20" autocomplete="nickname" placeholder="e.g. PixelPilot" />
+          <button id="createRoomBtn" class="button button-primary" type="button"><span>Create a room</span><span class="button-arrow">↗</span></button>
+          <div class="or-divider"><span></span> OR JOIN A FRIEND <span></span></div>
+          <label for="roomCode">Six-character room code</label>
+          <div class="join-row"><input id="roomCode" maxlength="6" autocapitalize="characters" autocomplete="off" placeholder="ABC123" /><button id="joinRoomBtn" class="button button-quiet" type="button" aria-label="Join room">Join <span>→</span></button></div>
+          <p id="homeMessage" class="message" aria-live="polite">Your name is all you need to play.</p>
+          <details class="how-to"><summary>How to play</summary><p>Create a room and share its code. Your friend joins from another device. The host starts when both players are ready. Pick one answer per question before the 15-second timer runs out. Correct answers earn 10 points; highest score wins.</p></details>
+        </div>
+      </section>
+
+      <section id="lobbyScreen" class="screen hidden">
+        <div class="screen-heading"><div class="eyebrow">MATCH ROOM</div><h1>Battle <span>lobby</span></h1><p>Bring your opponent in. The arena is almost ready.</p></div>
+        <div class="panel lobby-panel">
+          <div class="room-code-area"><div><span class="small-label">YOUR ROOM CODE</span><div id="lobbyRoomCode" class="room-code">------</div></div><button id="copyRoomCodeBtn" class="copy-button" type="button">▣ <span>Copy code</span></button></div>
+          <div class="lobby-divider"></div>
+          <div class="players-grid" id="playersList"></div>
+          <div id="lobbyStatus" class="lobby-note" aria-live="polite"><span class="pulse-dot"></span> Waiting for your challenger…</div>
+          <button id="startQuizBtn" class="button button-primary button-wide hidden" type="button">Start the battle <span>→</span></button>
+          <p class="host-hint" id="hostHint">Share your code to invite a friend.</p>
+        </div>
+        <button id="leaveLobbyBtn" class="text-button" type="button">← Leave room</button>
+      </section>
+
+      <section id="quizScreen" class="screen hidden">
+        <div class="matchbar"><div class="match-live"><span class="pulse-dot"></span> LIVE MATCH</div><div class="match-room">ROOM <b id="quizRoomCode">------</b></div><div class="match-round" id="matchRoundLabel">ROUND 1</div></div>
+        <div class="score-strip" id="scoreStrip"></div>
+        <div class="answer-status-strip" id="answerStatusStrip" aria-live="polite"></div>
+        <div class="quiz-panel panel">
+          <div class="question-meta"><span id="questionNumber">QUESTION 01 / 10</span><span class="timer-label">TIME LEFT</span></div>
+          <div class="timer-track"><div id="timerBar" class="timer-fill"></div></div>
+          <div class="question-layout"><div class="timer-circle" id="timerCircle"><span id="timerDisplay">15</span><small>SEC</small></div><div id="questionText" class="question-text">Loading your first question…</div></div>
+          <div id="answerOptions" class="answer-grid"></div>
+          <p id="answerMessage" class="answer-message" aria-live="polite">Choose your answer before time runs out.</p>
+        </div>
+        <div class="quiz-footnote"><span>✦</span> Correct answer = <b>10 points</b> <span class="dot-sep">·</span> Wrong or unanswered = 0</div>
+      </section>
+
+      <section id="resultScreen" class="screen hidden">
+        <div class="screen-heading"><div class="eyebrow">MATCH COMPLETE</div><h1 id="winnerText">The arena has a winner</h1><p id="resultSubtitle">A great battle from both players.</p></div>
+        <div class="panel result-panel"><div class="result-cup">🏆</div><div id="resultScores" class="result-scores"></div><div class="result-rule"></div><p class="rematch-copy">Fancy another round?</p><div id="rematchStatus" class="message" aria-live="polite">Both players need to agree to start a rematch.</div><div class="result-actions"><button id="rematchBtn" class="button button-primary" type="button">Request rematch <span>↻</span></button><button id="declineRematchBtn" class="button button-quiet" type="button">Maybe later</button></div><button id="leaveResultBtn" class="text-button" type="button">← Back to home</button></div>
+      </section>
+      <footer class="footer"><span>QUIZ BATTLE ARENA</span><span>THINK QUICK. HAVE FUN.</span></footer>
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
